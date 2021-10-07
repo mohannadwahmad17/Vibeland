@@ -1,14 +1,16 @@
 import spotipy
+import spotipy.util as util
 from spotipy.client import Spotify
-from constants import constants
+from constants.constants import *
 from spotipy.oauth2 import SpotifyClientCredentials
 
 spotify_api_accessor = None
 
-def getDevAccessToSpotifyWebAPI():
-    client_credentials_manager = SpotifyClientCredentials(constants.CLIENT_ID, constants.CLIENT_SECRET)
+def clientCredentialsFlow():
+    client_credentials_manager = SpotifyClientCredentials(CLIENT_ID, CLIENT_SECRET)
     spotify_api_accessor = Spotify(client_credentials_manager)
 
-def handleCredentials(credentials):
-    
+def authorizationCodeFlow(credentials):
+    scopes = USER_SCOPES + " " + SPOTIFY_CONNECT_SCOPES + " " +  LIBRARY_SCOPES + " " + LISTENING_HISTORY_SCOPES
+    token = util.prompt_for_user_token(username=credentials["username"], scope=scopes)
     pass
