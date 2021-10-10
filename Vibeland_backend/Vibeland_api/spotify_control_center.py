@@ -1,7 +1,7 @@
 import spotipy
 import spotipy.util as util
 from spotipy.client import Spotify
-from constants.constants import *
+from Vibeland_api.constants.constants import *
 from spotipy.oauth2 import SpotifyClientCredentials
 
 spotify_api_accessor = None

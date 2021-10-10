@@ -1,11 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from Vibeland_backend.Vibeland_api.spotify_control_center import clientCredentialsFlow, authorizationCodeFlow
-import spotify_control_center
+from Vibeland_api.spotify_control_center import clientCredentialsFlow, authorizationCodeFlow
+import Vibeland_api.spotify_control_center
+from rest_framework.decorators import api_view
+
+def index():
+    pass
 
 def initializeDeveloperAccess():
     clientCredentialsFlow()
 
+@api_view(['GET', 'POST'])
 def loginToSpotify(data):
+    print("LOL")
     authorizationCodeFlow(data["credentials"])
     return HttpResponse("LOL");
