@@ -1,5 +1,6 @@
 CLIENT_ID = "4aadd13a67674e16adb17e0dc4405e44"
 CLIENT_SECRET = "b8cc2bbdff004097940d2c7db8f4bc19"
+SPOTIPY_REDIRECT_URI = "http://localhost/8000"
 
 
 LIBRARY_SCOPES = "user-library-read"
