@@ -9,6 +9,7 @@
 testDb.py
 createDb.py
 parts_db_constants.py
+*.cache*
 
 #Database
 *.sqlite3

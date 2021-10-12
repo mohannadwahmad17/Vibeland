@@ -16,7 +16,7 @@ import {
   Divider,
 } from 'native-base';
 import { useState, useEffect } from 'react';
-import { ROUTE_TO_SPOTIFY_CONNECTION } from '../constants/constants';
+import { MY_USERNAME, ROUTE_TO_SPOTIFY_CONNECTION } from '../constants/constants';
 import { sendPostRequest } from '../REST/HttpRequestBuilder';
 import axios from 'axios';
 
@@ -25,7 +25,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
 
   function onUsernameEntered(input) {
-    setUsername(input);
+    setUsername(MY_USERNAME);
 
     console.log(input)
   }
