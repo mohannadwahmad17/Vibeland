@@ -1,7 +1,7 @@
 /vibeland_env
 
 #Firebase credentials
-vibeland-f74df-firebase-adminsdk-kszww-40311567ab.json
+#vibeland-f74df-firebase-adminsdk-kszww-40311567ab.json
 
 #Directories
 /chromedriver_win32
@@ -11,7 +11,7 @@ testDb.py
 createDb.py
 parts_db_constants.py
 *.cache*
-secrets.py
+#secrets.py
 
 #Database
 *.sqlite3
