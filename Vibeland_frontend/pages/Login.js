@@ -50,6 +50,7 @@ const LoginPage = () => {
 
     sendPostRequest(body, ROUTE_TO_SPOTIFY_CONNECTION).then(response => {
       console.log(response);
+      
     })
     .catch(error => console.log(error));
   }
