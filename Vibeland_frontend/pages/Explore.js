@@ -3,11 +3,11 @@ import React, { useState } from "react";
 
 const default_list = [
     {
-        "song_title" : "Default"
+        "title": "Default"
     }
 ]
 
-const Song = ({title}) => (
+const Song = ({ title }) => (
     <View>
         <Text>{title}</Text>
     </View>
@@ -15,17 +15,23 @@ const Song = ({title}) => (
 
 const renderItem = ({ item }) => (
     <Song title={item.title} />
-  );
+);
 
-const ExplorePage = () => {
+const ExplorePage = ({ navigation }) => {
     const [songs, setSongs] = useState(default_list);
 
-    return(
-        <List>
-            <FlatList 
-                data={songs}
-                renderItem={renderItem}
-            />
-        </List>
+    return (
+        <View>
+            {songs && (
+                <FlatList
+                    data={songs}
+                    renderItem={renderItem}
+                />
+            )}
+        </View>
     );
 }
+
+export {
+    ExplorePage
+};

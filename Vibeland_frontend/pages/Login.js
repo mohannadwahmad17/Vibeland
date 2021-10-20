@@ -20,7 +20,7 @@ import { MY_USERNAME, ROUTE_TO_SPOTIFY_CONNECTION } from '../constants/constants
 import { sendPostRequest } from '../REST/HttpRequestBuilder';
 import axios from 'axios';
 
-const LoginPage = () => {
+const LoginPage = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -42,6 +42,7 @@ const LoginPage = () => {
       contentType: 'application/json'
     };
     let body = {
+      type: "explore",
       credentials : {
         username: username,
         password: password
@@ -50,7 +51,7 @@ const LoginPage = () => {
 
     sendPostRequest(body, ROUTE_TO_SPOTIFY_CONNECTION).then(response => {
       console.log(response);
-      
+      navigation.navigate('ExplorePage');
     })
     .catch(error => console.log(error));
   }

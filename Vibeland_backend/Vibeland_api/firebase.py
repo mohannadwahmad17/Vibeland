@@ -1,5 +1,5 @@
-from secrets.secrets import PATH_TO_FIREBASE_SERVICE_ACCOUNT_KEY, FIREBASE_DATABSE_URL
-from constants.constants import FIREBASE_ROOT_NODE_REF, FIREBASE_USER_TOKEN_REF, FIREBASE_USERS_NODE_NAME
+from Vibeland_api.secrets.secrets import PATH_TO_FIREBASE_SERVICE_ACCOUNT_KEY, FIREBASE_DATABSE_URL
+from Vibeland_api.constants.constants import FIREBASE_ROOT_NODE_REF, FIREBASE_USER_TOKEN_REF, FIREBASE_USERS_NODE_NAME
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
