@@ -5,6 +5,7 @@
 
 #Directories
 /chromedriver_win32
+/data_files
 
 #Specific files
 testDb.py

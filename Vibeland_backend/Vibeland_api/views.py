@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 import json
 
 from Vibeland_api.recommender.recommend_engine import recommendationEngine
+from Vibeland_api.recommender import *
 
 def index():
     pass
