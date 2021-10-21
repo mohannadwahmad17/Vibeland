@@ -15,6 +15,7 @@ import { ExplorePage } from './pages/Explore';
 import { Signup } from './pages/SignUp';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeBaseProvider } from 'native-base';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,13 +27,14 @@ const App: () => Node = () => {
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="LoginPage" component={ LoginPage }/>
-        <Stack.Screen name="ExplorePage" component={ Signup }/>
-      </Stack.Navigator>
-    </NavigationContainer>
-    
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="ExplorePage" component={ExplorePage} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 };
 
