@@ -10,13 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
-<<<<<<< HEAD
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "axios": "^0.22.0",
-=======
-    "axios": "^0.23.0",
->>>>>>> 41f07d39187bcc8babc67bd7f5588b5470bb1817
     "native-base": "^3.2.0",
     "react": "17.0.2",
     "react-native": "0.66.0",
