@@ -1,12 +1,6 @@
-import { FlatList, List, View } from "native-base";
-import React, { useState } from "react";
+import { FlatList, View } from "native-base";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native"
-
-const default_list = [
-    {
-        "title": "Default"
-    }
-]
 
 const Song = ({ title }) => (
     <View>
@@ -18,13 +12,17 @@ const renderItem = ({ item }) => (
     <Song title={item.title} />
 );
 
-const ExplorePage = ({ navigation }) => {
-    const [songs, setSongs] = useState(default_list);
+const ExplorePage = ({ route, navigation }) => {
+    const [songs, setSongs] = useState(route.params["song_list"]);
+
+    useEffect(() => {
+        console.log(songs);
+    }, []);
 
     return (
-        <List>
-            <FlatList data={songs} renderItem={renderItem}/>
-        </List>
+        <View>
+            <FlatList data={ songs } renderItem={renderItem}/>
+        </View>
     );
 }
 

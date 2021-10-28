@@ -26,8 +26,6 @@ const LoginPage = ({ navigation }) => {
 
   function onUsernameEntered(input) {
     setUsername(MY_USERNAME);
-
-    console.log(input)
   }
 
   function onPressSignIn() {
@@ -51,9 +49,9 @@ const LoginPage = ({ navigation }) => {
 
     sendPostRequest(body, ROUTE_TO_SPOTIFY_CONNECTION).then(response => {
       console.log(response);
-      navigation.navigate('ExplorePage');
+      navigation.navigate('ExplorePage', { song_list : response.data["songs"] });
     })
-      .catch(error => console.log(error));
+    .catch(error => console.log(error));
   }
 
   return (
