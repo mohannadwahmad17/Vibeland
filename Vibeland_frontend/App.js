@@ -11,7 +11,13 @@ import type {Node} from 'react';
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, useColorScheme, View } from 'react-native';
 import { Colors, DebugInstructions, Header, LearnMoreLinks, ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
 import { LoginPage } from './pages/Login';
-import { Signup } from './pages/SignUp'
+import { ExplorePage } from './pages/Explore';
+import { Signup } from './pages/SignUp';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeBaseProvider } from 'native-base';
+
+const Stack = createNativeStackNavigator();
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -21,7 +27,14 @@ const App: () => Node = () => {
   };
 
   return (
-    <LoginPage/>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="ExplorePage" component={ExplorePage} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 };
 

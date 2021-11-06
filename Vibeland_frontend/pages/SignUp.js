@@ -16,7 +16,7 @@ import {
   Divider,
 } from 'native-base';
 
-const Signup = () => {
+const Signup = ({ navigation }) => {
   return (
     <NativeBaseProvider>
       <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">

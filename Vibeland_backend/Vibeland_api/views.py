@@ -7,6 +7,7 @@ from Vibeland_api.recommender.recommend_engine import *
 from rest_framework.decorators import api_view
 import json
 
+from Vibeland_api.recommender.recommend_engine import recommendationEngine
 from Vibeland_api.recommender import *
 
 def index():
@@ -20,5 +21,8 @@ def accessRecommendationSystem(request):
     spotify_api_accessor = authorizationCodeFlow(request.data["credentials"])
     if request.method == 'POST':
         if request.data["type"] == "explore":
-            recommendationEngine(spotify_api_accessor)
-            return HttpResponse("KKKKKKK")
+            songs = recommendationEngine(spotify_api_accessor)
+            songs_json = {
+                "songs" : songs
+            }
+            return HttpResponse(json.dumps(songs_json))
