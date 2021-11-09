@@ -1,6 +1,15 @@
 import { FlatList, View } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Text } from "react-native"
+import { flex, justifyContent, marginBottom, styles } from "styled-system";
+
+// const styles = StyleSheet.create({
+//     bottom: {
+//         flex: 1,
+//         justifyContent: 'flex-end',
+//         marginBottom: 36
+//     }
+// };
 
 const Song = ({ title }) => (
     <View>
