@@ -7,7 +7,7 @@ def recommendationEngine(spotifyApiAccessor):
 
 def getUserSongLibrary(spotifyApiAccessor):
     user_library = spotifyApiAccessor.current_user_saved_tracks(limit=50)
-
+    print(user_library)
     song_artist_tuples = []
     for item in user_library['items']:
         track = item['track']
