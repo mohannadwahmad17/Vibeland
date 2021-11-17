@@ -31,14 +31,9 @@ const LoginPage = ({ navigation }) => {
   function onPressSignIn() {
 
     if (username == "") {
-
       return;
     }
 
-    let headers = {
-      accept: 'application/json',
-      contentType: 'application/json'
-    };
     let body = {
       type: "explore",
       credentials: {
@@ -47,11 +42,9 @@ const LoginPage = ({ navigation }) => {
       }
     }
 
-    sendPostRequest(body, ROUTE_TO_SPOTIFY_CONNECTION).then(response => {
-      console.log(response);
-      navigation.navigate('ExplorePage', { song_list : response.data["songs"] });
-    })
-    .catch(error => console.log(error));
+    navigation.navigate('ExplorePage', { 
+      username : username
+    });
   }
 
   return (
