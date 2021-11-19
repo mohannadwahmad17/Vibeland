@@ -1,15 +1,44 @@
-import { FlatList, useSafeArea, View, Button, Center } from "native-base";
+import { FlatList, useSafeArea, View, Button, Center, VStack, HStack } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native"
+import { Text, StyleSheet } from "react-native"
 import { SongContainer } from "../components/SongContainer";
 import { sendPostRequest } from '../REST/HttpRequestBuilder';
 import { MY_USERNAME, ROUTE_TO_SPOTIFY_CONNECTION } from '../constants/constants';
-import { flex, justifyContent, marginBottom, styles } from "styled-system";
+import { flex, justifyContent, marginBottom, style, styles } from "styled-system";
+
+const explorePageStyle = StyleSheet.create({
+    content: {
+        alignItems: 'center',
+        flex: 0.5,
+        marginTop: 30
+    },
+    exploreButton: {
+        marginRight: 15
+    },
+    statsButton: {
+        marginTop: 25
+    },
+    clearButton: {
+        backgroundColor: 'red'
+    }
+});
 
 const ExplorePage = ({ route, navigation }) => {
     const [username, setUsername] = useState(route.params["username"]);
-    const [songs, setSongs] = useState();
     const [explorePressed, setExplorePressed] = useState(false);
+    const [showSongs, setShowSongs] = useState(false)
+    const [songs, setSongs] = useState(undefined);
+
+    useEffect(() => {
+        if (songs !== undefined) {
+            // console.log(songs);
+            setShowSongs(true);
+        }
+    }, songs);
+        
+    function onPressClear() {
+        setExplorePressed(false);
+    }
 
     function onPressExplore() {
         setExplorePressed(true);
@@ -21,27 +50,44 @@ const ExplorePage = ({ route, navigation }) => {
         }
 
         sendPostRequest(body, ROUTE_TO_SPOTIFY_CONNECTION).then(response => {
-            // navigation.navigate('SongContainer', { song_list: response.data["songs"] });
             setSongs(response.data["songs"]);
-            console.log(songs)
         })
         .catch(error => console.log(error));
     }
 
+    function onPressStats() {
+        navigation.navigate('StatsPage', {
+
+        });
+    }
+
     return (
-        <>
-            <View style={{ justifyContent: 'flex-start', flex: 1 }} >
-                <Center flex={1} px="3">
-                    <Button onPress={onPressExplore}>
-                        Explore Music
-                    </Button>
+        <View style={explorePageStyle.content}>
+            <VStack>
+                <Center>
+                    <HStack>
+                        <Button style={explorePageStyle.exploreButton} onPress={onPressExplore}>
+                            Explore Music
+                        </Button>
+                        { 
+                            explorePressed ? 
+                            <Button style={explorePageStyle.clearButton} onPress={onPressClear}> 
+                                Clear 
+                            </Button> : null 
+                        }
+                    </HStack>
                 </Center>
-            </View>
-            <View>
-                {/* {explorePressed? <SongContainer songs={songs}/> : <View/>} */}
-                <SongContainer songs={songs}/>
-            </View>
-        </>
+                { 
+                    showSongs ?
+                    <Center>
+                        <SongContainer songs={songs}/>
+                        <Button style={explorePageStyle.statsButton} onPress={onPressStats}>
+                            View Stats
+                        </Button>
+                    </Center> : null
+                }
+            </VStack>
+        </View>
     );
 }
 
