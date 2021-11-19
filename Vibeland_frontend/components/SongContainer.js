@@ -1,55 +1,92 @@
-import { View } from "native-base";
+import { View, FlatList, VStack, Box, Text, HStack, Avatar, Spacer, Wrap, Pressable } from "native-base";
+import { sendGetRequest } from "../REST/HttpRequestBuilder";
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet } from "react-native"
-import { List, ListItem, FlatList } from "react-native-elements";
+import { SongWebPage } from "../pages/SongWebPage";
+import { WebView } from 'react-native-webview'
+import { StyleSheet } from "react-native"
+import { NavigationContainer } from "@react-navigation/native";
 
 const songContainerStyles = StyleSheet.create({
     songContainer: {
 
     },
-    songItem: {
-
+    songTitle: {
+        flexShrink: 1
     }
 });
 
-const Song = ({ title }) => (
-    <View>
-        <Text>{title}</Text>
-    </View>
+const keyExtractor = (item, index) => index.toString();
+
+function onPressSuggestion(url, preview, props) {
+    props.navigation(url, preview);
+}
+
+const SongItem = ({ title, artist, art }) => (
+    <Wrap flexDirection="row">
+        <HStack>
+            <Avatar 
+                size="48px"
+                source={{
+                    uri: art
+                }}
+                marginRight={ 3.5 }
+            />
+            <VStack>
+                <HStack style={{flexDirection:'row'}}>
+                    <Text _dark={{
+                        color: "warmGray.50",
+                        }}
+                        color="coolGray.800"
+                        bold
+                    >
+                        Track:
+                    </Text>
+                    <Text> {title} </Text>
+                </HStack>
+                <HStack>
+                    <Text _dark={{
+                        color: "warmGray.50",
+                        }}
+                        color="coolGray.800"
+                        bold
+                    >
+                        Artist:
+                    </Text>
+                    <Text> {artist} </Text>
+                </HStack>
+            </VStack>
+        </HStack>
+    </Wrap>
 );
 
-const keyExtractor = (item, index) => index.toString()
-
-const renderItem = ({ item }) => (
-    // <Song title={item.title} />
-    <ListItem bottomDivider>
-
-    </ListItem>
+const renderItem = ({ item }, props) => (
+    <VStack>
+        <Pressable onPress={() => onPressSuggestion(item.songurl, item.songprev, props)}>
+            {({ isPressed }) => {
+                return (
+                    <Box
+                        bg={isPressed ? "coolGray.200" : "white"}
+                        borderBottomWidth="1"
+                        _dark={{
+                            borderColor: "gray.600",
+                        }}
+                        borderColor="coolGray.200"
+                        pl="4"
+                        pr="5"
+                        py="2"
+                    >
+                        <SongItem title={item.title} artist={item.artists} art={item.coverart} />
+                    </Box>
+                );
+            }
+            }
+        </Pressable>
+    </VStack>
 );
-
-const renderSeparator = () => {
-    return (
-        <View
-            style={{
-                height: 1,
-                width: "86%",
-                backgroundColor: "#CED0CE",
-                marginLeft: "14%"
-            }}
-        />
-    );
-};
 
 const SongContainer = (props) => {
-    const [showSongs, setShowSongs] = useState(false);
+    const [showSongs, setShowSongs] = useState(props.show);
     const [data, setData] = useState(props.songs);
-
-    useEffect(() => {
-        console.log(props.songs)
-        if (data !== undefined) {
-            setShowSongs(true);
-        }
-    })
 
     return (
         <>
@@ -57,10 +94,10 @@ const SongContainer = (props) => {
                 showSongs ?
                     <FlatList
                         keyExtractor={keyExtractor}
-                        data={props.songs}
-                        renderItem={renderItem}
+                        data={data}
+                        renderItem={(item) => renderItem(item, props)}
+                        marginTop={15}
                     />
-                    // <Text>HI</Text>
                     : <Text>YAY</Text>
             }
         </>

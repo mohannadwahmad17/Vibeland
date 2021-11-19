@@ -1,4 +1,5 @@
 from Vibeland_api.recommender.algorithms import *
+import csv
 
 def recommendationEngine(spotifyApiAccessor):
     #Get the current user's song library
@@ -23,8 +24,12 @@ def getUserSongLibrary(spotifyApiAccessor):
 
         song_tuple = {
             "title": track['name'], 
-            "artists": track['artists'][0]['name']
+            "artists": track['artists'][0]['name'],
+            "coverart": track['album']['images'][0]['url'],
+            "songurl": track['external_urls']['spotify'],
+            "songprev": track['preview_url']
         }
+        
         song_tuples.append(song_tuple)
         song_ids.append(track['id'])
 
@@ -39,4 +44,9 @@ def getUserSongFeatures(spotifyApiAccessor, song_ids):
     for features in song_features:
         song_features_final_list.append(list(features.values()))
     
+    with open("mysongs.csv","w") as csvfile:
+        writer = csv.writer(csvfile)
+        for row in song_features_final_list:
+            writer.writerow(row)
+
     return song_features_final_list

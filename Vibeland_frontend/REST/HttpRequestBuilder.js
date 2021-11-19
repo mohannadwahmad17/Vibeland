@@ -11,6 +11,17 @@ async function sendPostRequest(input, URL) {
     });
 }
 
+async function sendGetRequest(URL) {
+    return await axios({
+        method: "GET",
+        url: URL,
+        headers: {
+            "content-type": "application/json"
+        }
+    });
+}
+
 export {
-    sendPostRequest
+    sendPostRequest,
+    sendGetRequest
 };

@@ -26,18 +26,23 @@ const explorePageStyle = StyleSheet.create({
 const ExplorePage = ({ route, navigation }) => {
     const [username, setUsername] = useState(route.params["username"]);
     const [explorePressed, setExplorePressed] = useState(false);
+    const [clearPressed, setClearPressed] = useState(false);
     const [showSongs, setShowSongs] = useState(false)
     const [songs, setSongs] = useState(undefined);
 
     useEffect(() => {
         if (songs !== undefined) {
-            // console.log(songs);
             setShowSongs(true);
         }
-    }, songs);
+        else {
+            setShowSongs(false);
+        }
+    });
         
     function onPressClear() {
         setExplorePressed(false);
+        setShowSongs(false);
+        setSongs(undefined);
     }
 
     function onPressExplore() {
@@ -61,6 +66,13 @@ const ExplorePage = ({ route, navigation }) => {
         });
     }
 
+    function navigateToSongLink(url, preview) {
+        navigation.navigate('SongWebPage', {
+            url: url,
+            preview: preview
+        })
+    }
+
     return (
         <View style={explorePageStyle.content}>
             <VStack>
@@ -80,11 +92,11 @@ const ExplorePage = ({ route, navigation }) => {
                 { 
                     showSongs ?
                     <Center>
-                        <SongContainer songs={songs}/>
+                        <SongContainer show={showSongs} songs={songs} navigation={navigateToSongLink}/>
                         <Button style={explorePageStyle.statsButton} onPress={onPressStats}>
                             View Stats
                         </Button>
-                    </Center> : null
+                    </Center> : <View/>
                 }
             </VStack>
         </View>
