@@ -16,6 +16,7 @@ import { Signup } from './pages/SignUp';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NativeBaseProvider } from 'native-base';
+import { StatsPage } from './pages/Stats';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ const App: () => Node = () => {
         <Stack.Navigator>
           <Stack.Screen name="LoginPage" component={LoginPage} />
           <Stack.Screen name="ExplorePage" component={ExplorePage} />
+          <Stack.Screen name="StatsPage" component={StatsPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

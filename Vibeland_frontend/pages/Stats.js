@@ -1,5 +1,7 @@
+import React from 'react';
+import { View } from 'native-base';
 
-const StatsPage = ({ navigation }) => {
+const StatsPage = ({ route, navigation }) => {
     
     return (
         <View>
