@@ -1,6 +1,18 @@
 import csv
 import copy
 import random
+from math import sqrt
+
+#Compute the euclidean distance between the given points
+def distance(point, point2):
+    if len(point) != len(point2):
+        print("Error. Points not in same dimensionality")
+        return
+    else:
+        length = 0
+        for i in range(len(point)):
+            length += (point[i] - point2[i])**2
+        return(sqrt(length))
 
 def kmeans_clustering(data, k, max_iter):
     centroids = []
@@ -63,3 +75,25 @@ def kmeans_clustering(data, k, max_iter):
 
         iters+=1
     return(data, centroids)
+
+#This function performs the classification of the given user's songs based on the given centroids
+def closest_centroid(centroids, input_data):
+    cluster_counts = [0] * len(centroids)
+    for data in input_data:
+        closest_dist = -1
+        closest_center = -1
+        j = 0
+        for center in centroids:
+            dist = distance(data, center)
+            if(closest_dist > dist or closest_dist == -1):
+                closest_dist = dist
+                closest_center = j
+            j += 1
+        cluster_counts[closest_center] += 1
+    biggest_count = -1
+    best_cluster = -1
+    for i in range(len(cluster_counts)):
+        if(cluster_counts[i] > biggest_count):
+            biggest_count = cluster_counts[i]
+            best_cluster = i
+    return(best_cluster)

@@ -25,7 +25,7 @@ const LoginPage = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   function onUsernameEntered(input) {
-    setUsername(MY_USERNAME);
+    setUsername("guywithmusic222");
   }
 
   function onPressSignIn() {

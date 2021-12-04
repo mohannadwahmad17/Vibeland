@@ -23,13 +23,16 @@ const explorePageStyle = StyleSheet.create({
     }
 });
 
+//This component will contain the home page, from which the user can request song recommendations and view them in a list
 const ExplorePage = ({ route, navigation }) => {
     const [username, setUsername] = useState(route.params["username"]);
     const [explorePressed, setExplorePressed] = useState(false);
     const [clearPressed, setClearPressed] = useState(false);
-    const [showSongs, setShowSongs] = useState(false)
+    const [authToken, setAuthToken] = useState(undefined);
+    const [showSongs, setShowSongs] = useState(false);
     const [songs, setSongs] = useState(undefined);
 
+    //This hook is to make sure the song display conditional is updated appropriately
     useEffect(() => {
         if (songs !== undefined) {
             setShowSongs(true);
@@ -39,12 +42,14 @@ const ExplorePage = ({ route, navigation }) => {
         }
     });
         
+    //If the user presses the 'Clear' button, clear the list of songs 
     function onPressClear() {
         setExplorePressed(false);
         setShowSongs(false);
         setSongs(undefined);
     }
 
+    //When the user presses the 'Explore' button, send a post request to the backend to retrieve the recommendations
     function onPressExplore() {
         setExplorePressed(true);
         let body = {
@@ -54,8 +59,10 @@ const ExplorePage = ({ route, navigation }) => {
             }
         }
 
+        //Construct a POST request to be sent to the backend that initiates the song recommendation process
         sendPostRequest(body, ROUTE_TO_SPOTIFY_CONNECTION).then(response => {
             setSongs(response.data["songs"]);
+            setAuthToken(response.data["token"]);
         })
         .catch(error => console.log(error));
     }
@@ -66,7 +73,9 @@ const ExplorePage = ({ route, navigation }) => {
         });
     }
 
+    //This function navigates the user to a web page, within the app, to the given URL
     function navigateToSongLink(url, preview) {
+
         navigation.navigate('SongWebPage', {
             url: url,
             preview: preview
@@ -92,10 +101,10 @@ const ExplorePage = ({ route, navigation }) => {
                 { 
                     showSongs ?
                     <Center>
-                        <SongContainer show={showSongs} songs={songs} navigation={navigateToSongLink}/>
-                        <Button style={explorePageStyle.statsButton} onPress={onPressStats}>
+                        <SongContainer show={showSongs} songs={songs} authToken={authToken} navigation={navigateToSongLink}/>
+                        {/* <Button style={explorePageStyle.statsButton} onPress={onPressStats}>
                             View Stats
-                        </Button>
+                        </Button> */}
                     </Center> : <View/>
                 }
             </VStack>

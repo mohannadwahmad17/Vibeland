@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+//Create a POST request to send the input to the given URL
 async function sendPostRequest(input, URL) {
     return await axios({
         method: "POST",
@@ -11,6 +12,7 @@ async function sendPostRequest(input, URL) {
     });
 }
 
+//Create a GET request sent to the given URL
 async function sendGetRequest(URL) {
     return await axios({
         method: "GET",
