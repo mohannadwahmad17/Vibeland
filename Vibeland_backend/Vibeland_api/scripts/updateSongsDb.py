@@ -14,14 +14,11 @@ def run():
 
         with open(os.path.join(data_file_path, file), encoding='Latin-1') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=",")
-
+            count = 0
             for row in csv_reader:
 
                 if table_name == "song":
                     if row[0] == "Name":
-                        continue
-                    
-                    if str(row[11]) == "audio_features":
                         continue
 
                     object, created = Song.objects.update_or_create(
@@ -46,3 +43,4 @@ def run():
                         time_signature=row[18],
                         genre=row[19]
                     )
+            print(count)
