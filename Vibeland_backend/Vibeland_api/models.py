@@ -22,3 +22,4 @@ class Song(models.Model):
     duration = models.IntegerField(default=0)
     time_signature = models.IntegerField(default=0)
     genre = models.CharField(max_length=100, default="")
+    centroid = models.IntegerField(default=0)

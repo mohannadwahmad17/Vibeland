@@ -17,7 +17,7 @@ def run():
             count = 0
             for row in csv_reader:
 
-                if table_name == "song":
+                if table_name == "songs":
                     if row[0] == "Name":
                         continue
 
@@ -41,6 +41,7 @@ def run():
                         url_features=row[16],
                         duration=row[17],
                         time_signature=row[18],
-                        genre=row[19]
+                        genre=row[19],
+                        centroid=row[20]
                     )
-            print(count)
+

@@ -80,6 +80,9 @@ def kmeans_clustering(data, k, max_iter):
 def closest_centroid(centroids, input_data):
     cluster_counts = [0] * len(centroids)
     for data in input_data:
+        if data[0] == "danceability":
+            continue
+
         closest_dist = -1
         closest_center = -1
         j = 0
@@ -90,13 +93,29 @@ def closest_centroid(centroids, input_data):
                 closest_center = j
             j += 1
         cluster_counts[closest_center] += 1
+    
     biggest_count = -1
     best_cluster = -1
+    second_best_cluster = -1
+    third_best_cluster = -1
     for i in range(len(cluster_counts)):
         if(cluster_counts[i] > biggest_count):
             biggest_count = cluster_counts[i]
             best_cluster = i
-    return(best_cluster)
+
+    biggest_count = -1        
+    for i in range(len(cluster_counts)):
+        if(cluster_counts[i] > biggest_count) and i != best_cluster:
+            biggest_count = cluster_counts[i]
+            second_best_cluster = i
+    
+    biggest_count = -1        
+    for i in range(len(cluster_counts)):
+        if(cluster_counts[i] > biggest_count) and i != second_best_cluster and i != third_best_cluster:
+            biggest_count = cluster_counts[i]
+            third_best_cluster = i
+
+    return best_cluster, second_best_cluster, third_best_cluster
 
 
 def scale_data(data):

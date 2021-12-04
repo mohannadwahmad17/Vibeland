@@ -1,6 +1,7 @@
 from Vibeland_api.constants.constants import CENTROIDS
 from Vibeland_api.recommender.algorithms import *
 from Vibeland_api.models import Song
+from random import sample
 import csv
 
 #This is the central function that calls the methods to perform the song library analysis and song recommendation process
@@ -11,11 +12,14 @@ def recommendationEngine(spotifyApiAccessor):
     #Retrieve the audio features of each of the songs in the user's library
     user_song_features = getUserSongFeatures(spotifyApiAccessor, song_ids)
 
+    #Scale the user song data
+    scaled_user_song_features = scale_data(user_song_features)
+
     #Run the audio features for each song through the kmenas clustering algorithm to analyze the data
-    clusters = closest_centroid(CENTROIDS, user_song_features)
+    best_cluster, second_best_cluster, third_best_cluster = closest_centroid(CENTROIDS, scaled_user_song_features)
 
     #Using the clusters obtained from the algorithm, query the song DB for appropriate song recommendations
-    recommendations = get_recommendations(clusters)
+    recommendations = get_recommendations(best_cluster, second_best_cluster, third_best_cluster)
 
     return user_song_library
 
@@ -77,7 +81,16 @@ def getUserSongFeatures(spotifyApiAccessor, song_ids):
     return song_features_final_list
 
 #This function retrieves song recommendations from the database based on the clusters it is given
-def get_recommendations(clusters):
-    recommendations = Song.objects.filter()
+def get_recommendations(cluster1, cluster2, cluster3):
+    recommendations = []
+
+    #Retrieve recommendations from the database
+    rec1 = list(Song.objects.filter(centroid__iexact = cluster1).values_list())
+    rec2 = list(Song.objects.filter(centroid__iexact = cluster2).values_list())
+    rec3 = list(Song.objects.filter(centroid__iexact = cluster3).values_list())
+
+    recommendations.append(sample(rec1, 5))
+    recommendations.append(sample(rec2, 3))
+    recommendations.append(sample(rec3, 1))
 
     return recommendations
