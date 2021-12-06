@@ -1,25 +1,25 @@
 /vibeland_env
 
 #Firebase credentials
-#vibeland-f74df-firebase-adminsdk-kszww-40311567ab.json
+vibeland-f74df-firebase-adminsdk-kszww-40311567ab.json
 
 #Directories
 /chromedriver_win32
 /data_files
-/secrets
+\Vibeland\Vibeland_backend\Vibeland_api\secrets
 
 #Specific files
 testDb.py
 createDb.py
 parts_db_constants.py
 *.cache*
-secrets.py
+*/secrets.py
 
 #Database
 *.sqlite3
 *.sql
 *.db
-#*.csv
+*.csv
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
