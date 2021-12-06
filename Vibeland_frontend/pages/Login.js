@@ -20,14 +20,17 @@ import { MY_USERNAME, ROUTE_TO_SPOTIFY_CONNECTION } from '../constants/constants
 import { sendPostRequest } from '../REST/HttpRequestBuilder';
 import axios from 'axios';
 
+//This is the component defining the login page of this application
 const LoginPage = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  //Set the username upon it being entered in the input
   function onUsernameEntered(input) {
-    setUsername("guywithmusic222");
+    setUsername(MY_USERNAME);
   }
 
+  //Begin the sign-in process and navigate to the Explore page
   function onPressSignIn() {
 
     if (username == "") {

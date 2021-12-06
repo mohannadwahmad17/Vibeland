@@ -21,6 +21,7 @@ import { SongWebPage } from './pages/SongWebPage';
 
 const Stack = createNativeStackNavigator();
 
+//This is the core component that defines the app and all the possible pages that the user can navigate to
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 

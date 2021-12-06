@@ -117,7 +117,7 @@ def closest_centroid(centroids, input_data):
 
     return best_cluster, second_best_cluster, third_best_cluster
 
-
+#This function scales the data to be used properly when comparing them to the centroids
 def scale_data(data):
     scalars = [[0.0, 0.988], [0.0, 1.0], [0,11], [0,1], [0.0,0.966], [0.0, 0.999], [0.0, 1.0], [0.0, 1.0], [0.0, 248.066]]
     for i in range(len(data)):
