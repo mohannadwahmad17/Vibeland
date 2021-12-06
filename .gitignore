@@ -13,7 +13,7 @@ testDb.py
 createDb.py
 parts_db_constants.py
 *.cache*
-#secrets.py
+secrets.py
 
 #Database
 *.sqlite3
