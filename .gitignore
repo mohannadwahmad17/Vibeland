@@ -6,6 +6,7 @@
 #Directories
 /chromedriver_win32
 /data_files
+/secrets
 
 #Specific files
 testDb.py
