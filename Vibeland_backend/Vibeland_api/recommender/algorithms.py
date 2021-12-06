@@ -121,6 +121,8 @@ def closest_centroid(centroids, input_data):
 def scale_data(data):
     scalars = [[0.0, 0.988], [0.0, 1.0], [0,11], [0,1], [0.0,0.966], [0.0, 0.999], [0.0, 1.0], [0.0, 1.0], [0.0, 248.066]]
     for i in range(len(data)):
+        if data[i][0]=="danceability":
+            continue
         for j in range(len(data[i])):
             data[i][j] = (data[i][j] - scalars[j][0]) / (scalars[j][1] - scalars[j][0])
     return(data)

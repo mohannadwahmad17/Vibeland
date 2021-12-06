@@ -26,7 +26,6 @@ def authorizationCodeFlow(credentials):
     #Make sure the token is valid then store it and return it for future use
     try:
         if token:
-            print(token)
             accessor = spotipy.Spotify(auth=token)
             spotify_api_accessor = SpotifyAccessor(accessor, token)
 

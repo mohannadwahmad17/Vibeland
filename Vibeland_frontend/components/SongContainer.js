@@ -5,21 +5,41 @@ import { SongPreviewPlayer } from "./SongPreviewPlayer";
 import React, { useEffect, useState } from "react";
 import { SongWebPage } from "../pages/SongWebPage";
 import { WebView } from 'react-native-webview'
-import { StyleSheet } from "react-native"
+import { StyleSheet, Dimensions } from "react-native"
 
 const songContainerStyles = StyleSheet.create({
     songContainer: {
-
+        width: Dimensions.get('window').width * 0.95
+    },
+    songFlatList: {
+        borderRadius: 15,
+        overflow: 'hidden',
+        marginTop: 15,
+        marginBottom: 15
+    },
+    shadowProp: {
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
     songTitle: {
         flexShrink: 1
+    },
+    headerText: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: '#0078ff',
+        fontFamily: 'Helvetica Neue',
+        textAlign: 'left',
+        marginLeft: 10
     }
 });
 
 const keyExtractor = (item, index) => index.toString();
 
 //This componenet represents a song item that displays a song's name, artist name, and the album cover art
-const SongItem = ({ title, artist, art }) => (
+const SongItem = ({ title, artist, art, genre }) => (
     <Wrap flexDirection="row">
         <HStack>
             <Avatar 
@@ -52,6 +72,17 @@ const SongItem = ({ title, artist, art }) => (
                     </Text>
                     <Text> {artist} </Text>
                 </HStack>
+                <HStack>
+                    <Text _dark={{
+                        color: "warmGray.50",
+                        }}
+                        color="coolGray.800"
+                        bold
+                    >
+                        Genre:
+                    </Text>
+                    <Text> {genre} </Text>
+                </HStack>
             </VStack>
         </HStack>
     </Wrap>
@@ -72,6 +103,7 @@ const RenderItem = (props) => {
                 {
                     ({ isPressed }) => {
                         return (
+                            props.songTier === props.item.tier &&
                             <Box
                                 bg={isPressed ? "coolGray.200" : "white"}
                                 borderBottomWidth="1"
@@ -84,7 +116,12 @@ const RenderItem = (props) => {
                                 py="2"
                             >
                                 { /* Render the song item containing the song title, artist name, and album cover art */ }
-                                <SongItem title={props.item.title} artist={props.item.artists} art={props.item.coverart} />
+                                <SongItem 
+                                    title={props.item.title} 
+                                    artist={props.item.artists} 
+                                    art={props.item.coverart}
+                                    genre={props.item.genre}
+                                />
                             </Box>
                         );
                     }
@@ -93,6 +130,43 @@ const RenderItem = (props) => {
         </VStack>
     )
 }
+
+const TierContainer = (props) => {
+    return (
+        <>
+            <View>
+                <Text style={songContainerStyles.headerText}>
+                    { props.header }
+                </Text>
+            </View>
+            <View style={songContainerStyles.shadowProp}>
+                <FlatList
+                    style={songContainerStyles.songFlatList}
+                    keyExtractor={keyExtractor}
+                    data={props.data}
+                    // renderItem={(item) => renderItem(item, props)}
+                    renderItem={
+                        ({ item }) => <RenderItem
+                            navigation={props.navigation}
+                            item={item}
+                            setUris={props.setUris}
+                            spotifyAccessor={props.props}
+                            setShowPlayer={props.setShowPlayer}
+                            setSongPreviewLink={props.setSongPreviewLink}
+                            songTier={props.songTier}
+                        />
+                    }
+                />
+            </View>
+        </>
+    );
+}
+
+const lists = [
+    { id: 0, title: "More of your Favorites:", tier: "rec1" },
+    { id: 1, title: "Similar to you Favorites:", tier: "rec2" },
+    { id: 2, title: "Explore Something New:", tier: "rec3" }
+]
 
 //This represents the component that contains the scrollable flatlist with all the song items 
 const SongContainer = (props) => {
@@ -103,28 +177,36 @@ const SongContainer = (props) => {
     const [data, setData] = useState(props.songs);
     const [uris, setUris] = useState();
 
+    useEffect(() => {
+        if (showSongs) {
+            props.loading();
+        }
+    });
+
     return (
         <VStack>
             {
                 /* If the songs are available to show, render a scrollable flatlist containing all the song items */
                 showSongs ?
                     <FlatList
+                        style={songContainerStyles.songContainer}
                         keyExtractor={keyExtractor}
-                        data={data}
-                        // renderItem={(item) => renderItem(item, props)}
+                        data={lists}
                         renderItem={
-                            ({ item }) => <RenderItem
-                                navigation={props.navigation}
-                                item={item}
-                                setUris={setUris}
-                                spotifyAccessor={props}
-                                setShowPlayer={setShowPlayer}
-                                setSongPreviewLink={setSongPreviewLink}
-                            />
+                            ({ item }) => 
+                                <TierContainer
+                                    data={data}
+                                    setUris={setUris}
+                                    header={item.title}
+                                    songTier={item.tier}
+                                    spotifyAccessor={props}
+                                    navigation={props.navigation}
+                                    setShowPlayer={setShowPlayer}
+                                    setSongPreviewLink={setSongPreviewLink}
+                                /> 
                         }
-                        marginTop={15}
                     />
-                    : <Text>YAY</Text>
+                : <Text>YAY</Text>
             }
         </VStack>
     );

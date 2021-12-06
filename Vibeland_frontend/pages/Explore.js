@@ -1,6 +1,6 @@
 import { FlatList, useSafeArea, View, Button, Center, VStack, HStack } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet } from "react-native"
+import { Text, StyleSheet, ActivityIndicator } from "react-native"
 import { SongContainer } from "../components/SongContainer";
 import { sendPostRequest } from '../REST/HttpRequestBuilder';
 import { MY_USERNAME, ROUTE_TO_SPOTIFY_CONNECTION } from '../constants/constants';
@@ -9,8 +9,7 @@ import { flex, justifyContent, marginBottom, style, styles } from "styled-system
 const explorePageStyle = StyleSheet.create({
     content: {
         alignItems: 'center',
-        flex: 0.5,
-        marginTop: 30
+        flex: 0.8
     },
     exploreButton: {
         marginRight: 15
@@ -20,6 +19,10 @@ const explorePageStyle = StyleSheet.create({
     },
     clearButton: {
         backgroundColor: 'red'
+    },
+    buttonBox: {
+        marginBottom: 15,
+        marginTop: 15
     }
 });
 
@@ -30,6 +33,7 @@ const ExplorePage = ({ route, navigation }) => {
     const [clearPressed, setClearPressed] = useState(false);
     const [authToken, setAuthToken] = useState(undefined);
     const [showSongs, setShowSongs] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [songs, setSongs] = useState(undefined);
 
     //This hook is to make sure the song display conditional is updated appropriately
@@ -52,6 +56,7 @@ const ExplorePage = ({ route, navigation }) => {
     //When the user presses the 'Explore' button, send a post request to the backend to retrieve the recommendations
     function onPressExplore() {
         setExplorePressed(true);
+        setLoading(true);
         let body = {
             type: "explore",
             credentials: {
@@ -61,6 +66,7 @@ const ExplorePage = ({ route, navigation }) => {
 
         //Construct a POST request to be sent to the backend that initiates the song recommendation process
         sendPostRequest(body, ROUTE_TO_SPOTIFY_CONNECTION).then(response => {
+            setLoading(false);
             setSongs(response.data["songs"]);
             setAuthToken(response.data["token"]);
         })
@@ -82,11 +88,16 @@ const ExplorePage = ({ route, navigation }) => {
         })
     }
 
+    //This turns off the loading indicator
+    function stopLoadingIndicator() {
+        setLoading(false);
+    }
+
     return (
         <View style={explorePageStyle.content}>
             <VStack>
                 <Center>
-                    <HStack>
+                    <HStack style={explorePageStyle.buttonBox}>
                         <Button style={explorePageStyle.exploreButton} onPress={onPressExplore}>
                             Explore Music
                         </Button>
@@ -99,13 +110,23 @@ const ExplorePage = ({ route, navigation }) => {
                     </HStack>
                 </Center>
                 { 
-                    showSongs ?
+                    showSongs === true && loading === false &&
                     <Center>
-                        <SongContainer show={showSongs} songs={songs} authToken={authToken} navigation={navigateToSongLink}/>
+                        <SongContainer 
+                            show={showSongs} 
+                            songs={songs} 
+                            authToken={authToken} 
+                            loading={stopLoadingIndicator}
+                            navigation={navigateToSongLink}
+                        />
                         {/* <Button style={explorePageStyle.statsButton} onPress={onPressStats}>
                             View Stats
                         </Button> */}
-                    </Center> : <View/>
+                    </Center>
+                }
+                {
+                    explorePressed === true && loading === true ?
+                    <ActivityIndicator size="large"/> : <View/>
                 }
             </VStack>
         </View>
