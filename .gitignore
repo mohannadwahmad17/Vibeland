@@ -6,14 +6,14 @@ vibeland-f74df-firebase-adminsdk-kszww-40311567ab.json
 #Directories
 /chromedriver_win32
 /data_files
-\Vibeland\Vibeland_backend\Vibeland_api\secrets
+/secrets
 
 #Specific files
 testDb.py
 createDb.py
 parts_db_constants.py
 *.cache*
-*/secrets.py
+secrets.py
 
 #Database
 *.sqlite3
