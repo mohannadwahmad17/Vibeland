@@ -20,7 +20,6 @@ def index():
 #Perform client credentials authorization flow
 def initializeDeveloperAccess():
     # clientCredentialsFlow()
-    print("HAHAH")
     return HttpResponse("POP")
 
 #This method directs POST and GET requests to their appropriate endpoints to retrieve song recommendations for the user
