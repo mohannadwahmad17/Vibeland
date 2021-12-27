@@ -1,4 +1,3 @@
-from requests.api import head
 from Vibeland_api.constants.constants import CENTROIDS
 from Vibeland_api.recommender.algorithms import *
 from Vibeland_api.models import Song
@@ -45,7 +44,7 @@ def getUserSongLibrary(spotifyApiAccessor):
     for set in user_library:
         for item in set['items']:
             track = item['track']
-            print(track['name'])
+
             song_tuple = {
                 "title": track['name'],
                 "songuri": track['uri'],
@@ -60,14 +59,6 @@ def getUserSongLibrary(spotifyApiAccessor):
             song_ids.append(track['id'])
 
     return song_tuples, song_ids
-
-#Remove the unneeded audio features from the data
-def clean_data(data):
-    del(data[11:18])
-    del(data[6])
-    del(data[3])
-    
-    return data
 
 #This function retrieves the audio features for the given list of songs using the Spotify API
 def getUserSongFeatures(spotifyApiAccessor, song_ids):
@@ -118,19 +109,35 @@ def get_recommendations(cluster1, cluster2, cluster3, access_token):
     #For each recommendation, retrieve the relevant information
     for recommendation in recommendations:
         for song in recommendations[recommendation]:
-            response = requests.get("https://api.spotify.com/v1/tracks/" + song[14], headers=headers)
-            response = response.json()
+            songInfo = requests.get("https://api.spotify.com/v1/tracks/" + song[14], headers=headers)
+            songInfo = songInfo.json()
+            
+            artistInfo = requests.get("https://api.spotify.com/v1/artists/" + songInfo['artists'][0]['id'], headers=headers)
+            artistInfo = artistInfo.json()
 
             song_tuple = {
+                "songid": songInfo['id'],
                 "genre": song[20],
                 "tier": recommendation,
-                "title": response['name'],
-                "songuri": response['uri'],
-                "songprev": response['preview_url'],
-                "artists": response['artists'][0]['name'],
-                "songurl": response['external_urls']['spotify'],
-                "coverart": response['album']['images'][0]['url'],
+                "title": songInfo['name'],
+                "songuri": songInfo['uri'],
+                "songprev": songInfo['preview_url'],
+                "artists": songInfo['artists'][0]['name'],
+                "songurl": songInfo['external_urls']['spotify'],
+                "coverart": songInfo['album']['images'][0]['url'],
             }
+            
+            if len(artistInfo['images']) > 0:
+                song_tuple["artistImage"] = artistInfo['images'][0]['url']
+            
             recommendations_final.append(song_tuple)
 
     return recommendations_final
+
+#Remove the unneeded audio features from the data
+def clean_data(data):
+    del(data[11:18])
+    del(data[6])
+    del(data[3])
+    
+    return data

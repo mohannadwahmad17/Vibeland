@@ -25,8 +25,12 @@ SECRET_KEY = 'django-insecure-sqrf84d$eiuxtk&dnot)x@arwi$%-kqglmxhy%-nzq49p2*nsf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+#Stream credentials
+STREAM_API_ID = '1157412'
+STREAM_API_KEY = 'x4h7ptpcczfa'
+STREAM_API_SECRET = 'd4ry63p4tkedwjqm3esgayauptrkn28ychsxdvhrwwn46cktyykmkughfdmk3ykh'
 
 # Application definition
 
@@ -39,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'Vibeland_api',
-    'django_extensions'
+    'django_extensions',
+    'stream_django',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -50,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'Vibeland_backend.urls'

@@ -6,20 +6,26 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import type {Node} from 'react';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, useColorScheme, View } from 'react-native';
 import { Colors, DebugInstructions, Header, LearnMoreLinks, ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
-import { LoginPage } from './pages/Login';
-import { ExplorePage } from './pages/Explore';
-import { Signup } from './pages/SignUp';
-import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, useColorScheme, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NativeBaseProvider } from 'native-base';
-import { StatsPage } from './pages/Stats';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { NavDrawer } from './navigation/NavDrawer';
 import { SongWebPage } from './pages/SongWebPage';
+import { NativeBaseProvider } from 'native-base';
+import { ExplorePage } from './pages/Explore';
+import { LoginPage } from './pages/Login';
+import { StatsPage } from './pages/Stats';
+import { Signup } from './pages/SignUp';
+import type {Node} from 'react';
+import React from 'react';
 
 const Stack = createNativeStackNavigator();
+
+const stackNavStyles = {
+  headerShown: false
+}
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -31,10 +37,10 @@ const App: () => Node = () => {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName="LoginPage" screenOptions={stackNavStyles}>
           <Stack.Screen name="LoginPage" component={LoginPage} />
-          <Stack.Screen name="ExplorePage" component={ExplorePage} />
-          <Stack.Screen name="StatsPage" component={StatsPage} />
+          <Stack.Screen name="Home" component={NavDrawer} />
+          {/* <Stack.Screen name="ExplorePage" component={ExplorePage} /> */}
           <Stack.Screen name="SongWebPage" component={SongWebPage} />
         </Stack.Navigator>
       </NavigationContainer>

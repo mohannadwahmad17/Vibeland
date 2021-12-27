@@ -42,7 +42,7 @@ const LoginPage = ({ navigation }) => {
       }
     }
 
-    navigation.navigate('ExplorePage', { 
+    navigation.navigate('Home', { 
       username : username
     });
   }

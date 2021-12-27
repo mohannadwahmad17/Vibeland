@@ -1,10 +1,11 @@
 import { FlatList, useSafeArea, View, Button, Center, VStack, HStack } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, ActivityIndicator } from "react-native"
-import { SongContainer } from "../components/SongContainer";
+import { SuggestionContainer } from "../components/SuggestionContainer";
 import { sendPostRequest } from '../REST/HttpRequestBuilder';
 import { MY_USERNAME, ROUTE_TO_SPOTIFY_CONNECTION } from '../constants/constants';
 import { flex, justifyContent, marginBottom, style, styles } from "styled-system";
+import { MainFeed } from "../components/MainFeed";
 
 const explorePageStyle = StyleSheet.create({
     content: {
@@ -28,10 +29,12 @@ const explorePageStyle = StyleSheet.create({
 
 //This component will contain the home page, from which the user can request song recommendations and view them in a list
 const ExplorePage = ({ route, navigation }) => {
-    const [username, setUsername] = useState(route.params["username"]);
+    const [username, setUsername] = useState(/*route.params["username"]*/"");
     const [explorePressed, setExplorePressed] = useState(false);
     const [clearPressed, setClearPressed] = useState(false);
     const [authToken, setAuthToken] = useState(undefined);
+    const [feedToken, setFeedToken] = useState(undefined);
+    const [userFeed, setUserFeed] = useState(undefined);
     const [showSongs, setShowSongs] = useState(false);
     const [loading, setLoading] = useState(false);
     const [songs, setSongs] = useState(undefined);
@@ -69,6 +72,8 @@ const ExplorePage = ({ route, navigation }) => {
             setLoading(false);
             setSongs(response.data["songs"]);
             setAuthToken(response.data["token"]);
+            setUserFeed(response.data["user_feed"]);
+            setFeedToken(response.data["feed_token"]);
         })
         .catch(error => console.log(error));
     }
@@ -112,10 +117,13 @@ const ExplorePage = ({ route, navigation }) => {
                 { 
                     showSongs === true && loading === false &&
                     <Center>
-                        <SongContainer 
-                            show={showSongs} 
-                            songs={songs} 
-                            authToken={authToken} 
+                        <SuggestionContainer 
+                            songs={songs}
+                            feed={userFeed}
+                            show={showSongs}
+                            username={username}
+                            feedToken={feedToken}
+                            authToken={authToken}
                             loading={stopLoadingIndicator}
                             navigation={navigateToSongLink}
                         />

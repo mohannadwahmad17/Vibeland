@@ -1,12 +1,17 @@
+from stream.client import StreamClient
 from Vibeland_api.spotify_control_center import clientCredentialsFlow, authorizationCodeFlow
+from Vibeland_backend.settings import STREAM_API_ID, STREAM_API_KEY, STREAM_API_SECRET
+from Vibeland_api.VibelandStreamCredentials import VibelandStreamCredentials
 from Vibeland_api.recommender.recommend_engine import recommendationEngine
 from Vibeland_api.recommender.recommend_engine import *
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
+from django.contrib.auth.models import User
 import Vibeland_api.spotify_control_center
 from Vibeland_api.recommender import *
 from django.http import HttpResponse
 from django.shortcuts import render
+import stream
 import json
 
 def index():
@@ -14,7 +19,9 @@ def index():
 
 #Perform client credentials authorization flow
 def initializeDeveloperAccess():
-    clientCredentialsFlow()
+    # clientCredentialsFlow()
+    print("HAHAH")
+    return HttpResponse("POP")
 
 #This method directs POST and GET requests to their appropriate endpoints to retrieve song recommendations for the user
 @api_view(['GET', 'POST'])
@@ -35,3 +42,6 @@ def accessRecommendationSystem(request):
                 "token" : spotify_api_accessor.token
             }
             return HttpResponse(json.dumps(songs_json))
+    
+    if request.method == 'GET':
+        return HttpResponse("LOL")

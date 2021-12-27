@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.fields import DateTimeField
+from stream_django.activity import Activity
 
 #This is the model that represents a Song item in the database
 class Song(models.Model):
@@ -23,3 +25,12 @@ class Song(models.Model):
     time_signature = models.IntegerField(default=0)
     genre = models.CharField(max_length=100, default="")
     centroid = models.IntegerField(default=0)
+
+class RecommendationCard(models.Model, Activity):
+    created_at = models.DateTimeField(auto_now_add=True)
+    artist_name = models.CharField(default="", max_length=100)
+    song_name = models.CharField(default="", max_length=100)
+
+    @property
+    def activity_actor_attr(self):
+        return self.song_name

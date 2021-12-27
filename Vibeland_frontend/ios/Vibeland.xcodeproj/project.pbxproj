@@ -14,6 +14,7 @@
 		73BD9322695A5350CB40D3DD /* libPods-Vibeland.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B4CA68D2F342A70BC8CD119 /* libPods-Vibeland.a */; };
 		80B233DDA43274B43734C114 /* libPods-Vibeland-VibelandTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E3FA4BB3DE4A29D1E5D85F8 /* libPods-Vibeland-VibelandTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		E3738ACE2772E411003ECD26 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3738ACD2772E411003ECD26 /* icomoon.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		84D29EF7DD455FDE369687CC /* Pods-Vibeland-VibelandTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Vibeland-VibelandTests.release.xcconfig"; path = "Target Support Files/Pods-Vibeland-VibelandTests/Pods-Vibeland-VibelandTests.release.xcconfig"; sourceTree = "<group>"; };
 		AB196DD21FED2170DDD11147 /* Pods-Vibeland.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Vibeland.release.xcconfig"; path = "Target Support Files/Pods-Vibeland/Pods-Vibeland.release.xcconfig"; sourceTree = "<group>"; };
 		E34C7C9E2EE84B4C987671A0 /* Pods-Vibeland.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Vibeland.debug.xcconfig"; path = "Target Support Files/Pods-Vibeland/Pods-Vibeland.debug.xcconfig"; sourceTree = "<group>"; };
+		E3738ACD2772E411003ECD26 /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icomoon.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -114,7 +116,6 @@
 				17710F85E09D64BA949F72DE /* Pods-Vibeland-VibelandTests.debug.xcconfig */,
 				84D29EF7DD455FDE369687CC /* Pods-Vibeland-VibelandTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -128,6 +129,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				E3738ACA2772E333003ECD26 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* Vibeland */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* VibelandTests */,
@@ -147,6 +149,14 @@
 				00E356EE1AD99517003FC87E /* VibelandTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E3738ACA2772E333003ECD26 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E3738ACD2772E411003ECD26 /* icomoon.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +255,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				E3738ACE2772E411003ECD26 /* icomoon.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

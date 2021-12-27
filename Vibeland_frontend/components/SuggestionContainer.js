@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import { SongWebPage } from "../pages/SongWebPage";
 import { WebView } from 'react-native-webview'
 import { StyleSheet, Dimensions } from "react-native"
+import { SongItem } from "./SongItem";
+import { MainFeed } from "./MainFeed";
 
 const songContainerStyles = StyleSheet.create({
     songContainer: {
@@ -37,56 +39,6 @@ const songContainerStyles = StyleSheet.create({
 });
 
 const keyExtractor = (item, index) => index.toString();
-
-//This componenet represents a song item that displays a song's name, artist name, and the album cover art
-const SongItem = ({ title, artist, art, genre }) => (
-    <Wrap flexDirection="row">
-        <HStack>
-            <Avatar 
-                size="48px"
-                source={{
-                    uri: art
-                }}
-                marginRight={ 3.5 }
-            />
-            <VStack>
-                <HStack style={{flexDirection:'row'}}>
-                    <Text _dark={{
-                        color: "warmGray.50",
-                        }}
-                        color="coolGray.800"
-                        bold
-                    >
-                        Track:
-                    </Text>
-                    <Text> {title} </Text>
-                </HStack>
-                <HStack>
-                    <Text _dark={{
-                        color: "warmGray.50",
-                        }}
-                        color="coolGray.800"
-                        bold
-                    >
-                        Artist:
-                    </Text>
-                    <Text> {artist} </Text>
-                </HStack>
-                <HStack>
-                    <Text _dark={{
-                        color: "warmGray.50",
-                        }}
-                        color="coolGray.800"
-                        bold
-                    >
-                        Genre:
-                    </Text>
-                    <Text> {genre} </Text>
-                </HStack>
-            </VStack>
-        </HStack>
-    </Wrap>
-);
 
 //This represents the item to be rendered in a flatlist
 const RenderItem = (props) => {
@@ -169,49 +121,57 @@ const lists = [
 ]
 
 //This represents the component that contains the scrollable flatlist with all the song items 
-const SongContainer = (props) => {
+const SuggestionContainer = (props) => {
     const [songPreviewLink, setSongPreviewLink] = useState();
+    const [feedToken, setFeedToken] = useState(props.feedToken);
+    const [userFeed, setUserFeed] = useState(props.userFeed);
     const [authToken, setToken] = useState(props.authToken);
-    const [showSongs, setShowSongs] = useState(props.show);
+    const [showRecs, setShowRecs] = useState(props.show);
     const [showPlayer, setShowPlayer] = useState(false);
     const [data, setData] = useState(props.songs);
     const [uris, setUris] = useState();
 
     useEffect(() => {
-        if (showSongs) {
+        if (showRecs) {
             props.loading();
         }
     });
 
     return (
-        <VStack>
-            {
-                /* If the songs are available to show, render a scrollable flatlist containing all the song items */
-                showSongs ?
-                    <FlatList
-                        style={songContainerStyles.songContainer}
-                        keyExtractor={keyExtractor}
-                        data={lists}
-                        renderItem={
-                            ({ item }) => 
-                                <TierContainer
-                                    data={data}
-                                    setUris={setUris}
-                                    header={item.title}
-                                    songTier={item.tier}
-                                    spotifyAccessor={props}
-                                    navigation={props.navigation}
-                                    setShowPlayer={setShowPlayer}
-                                    setSongPreviewLink={setSongPreviewLink}
-                                /> 
-                        }
-                    />
-                : <Text>YAY</Text>
-            }
-        </VStack>
+        // <VStack>
+        //     {
+        //         /* If the songs are available to show, render a scrollable flatlist containing all the song items */
+        //         showRecs ?
+        //             <FlatList
+        //                 style={songContainerStyles.songContainer}
+        //                 keyExtractor={keyExtractor}
+        //                 data={lists}
+        //                 renderItem={
+        //                     ({ item }) => 
+        //                         <TierContainer
+        //                             data={data}
+        //                             setUris={setUris}
+        //                             header={item.title}
+        //                             songTier={item.tier}
+        //                             spotifyAccessor={props}
+        //                             username={props.username}
+        //                             navigation={props.navigation}
+        //                             setShowPlayer={setShowPlayer}
+        //                             setSongPreviewLink={setSongPreviewLink}
+        //                         />
+        //                 }
+        //             />
+        //         : <Text>YAY</Text>
+        //     }
+        // </VStack>
+        <MainFeed 
+            navigation={props.navigation}
+            songRecommendations={data} 
+            showRecs={showRecs}
+        />
     );
 }
 
 export {
-    SongContainer
+    SuggestionContainer
 }
