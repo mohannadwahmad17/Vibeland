@@ -98,6 +98,7 @@ def get_recommendations(cluster1, cluster2, cluster3, access_token):
     rec2 = list(Song.objects.filter(centroid__iexact = cluster2).values_list())
     rec3 = list(Song.objects.filter(centroid__iexact = cluster3).values_list())
 
+    #Get samples for each of the three best clusters
     recommendations["rec1"] = sample(rec1, 5)
     recommendations["rec2"] = sample(rec2, 3)
     recommendations["rec3"] = sample(rec3, 1)
@@ -108,6 +109,7 @@ def get_recommendations(cluster1, cluster2, cluster3, access_token):
 
     #For each recommendation, retrieve the relevant information
     for recommendation in recommendations:
+        #For each of the songs, retrieve the necessary information to be displayed on the frontend
         for song in recommendations[recommendation]:
             songInfo = requests.get("https://api.spotify.com/v1/tracks/" + song[14], headers=headers)
             songInfo = songInfo.json()

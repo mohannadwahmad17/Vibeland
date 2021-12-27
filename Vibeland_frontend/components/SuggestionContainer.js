@@ -9,6 +9,7 @@ import { StyleSheet, Dimensions } from "react-native"
 import { SongItem } from "./SongItem";
 import { MainFeed } from "./MainFeed";
 
+//Define the styles for the different components in a song container
 const songContainerStyles = StyleSheet.create({
     songContainer: {
         width: Dimensions.get('window').width * 0.95
@@ -83,6 +84,11 @@ const RenderItem = (props) => {
     )
 }
 
+//This tier container is a list of song recommendations for a particular tier
+//Tiers are:
+// 1. Most likely for the user to like
+// 2. Similar songs but different enough
+// 3. Very new songs that the application suggests to encourage exploration
 const TierContainer = (props) => {
     return (
         <>
@@ -96,7 +102,6 @@ const TierContainer = (props) => {
                     style={songContainerStyles.songFlatList}
                     keyExtractor={keyExtractor}
                     data={props.data}
-                    // renderItem={(item) => renderItem(item, props)}
                     renderItem={
                         ({ item }) => <RenderItem
                             navigation={props.navigation}
@@ -114,6 +119,7 @@ const TierContainer = (props) => {
     );
 }
 
+//List of metadata defining the different song recommendation tier lists
 const lists = [
     { id: 0, title: "More of your Favorites:", tier: "rec1" },
     { id: 1, title: "Similar to you Favorites:", tier: "rec2" },

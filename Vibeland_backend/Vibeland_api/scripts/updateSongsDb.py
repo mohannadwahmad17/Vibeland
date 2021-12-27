@@ -3,7 +3,7 @@ import re
 import csv
 from Vibeland_api.models import *
 
-
+#This function will be run to populate the database with the songs from the csv file containing all the songs
 def run():
     data_file_path = "Vibeland_api/data_files"
 
@@ -12,9 +12,11 @@ def run():
     for file in files:
         table_name = re.findall(r"(.*)Db.csv", file)[0]
 
+        #Open the csv file to read all the data and update the database with all the song entries
         with open(os.path.join(data_file_path, file), encoding='Latin-1') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=",")
-            count = 0
+            
+            #Extract the necessary data from each row to insert all the song entries in the database
             for row in csv_reader:
 
                 if table_name == "songs":
