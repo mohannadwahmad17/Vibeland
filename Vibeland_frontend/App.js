@@ -40,7 +40,7 @@ const App: () => Node = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="LoginPage" screenOptions={stackNavStyles}>
           <Stack.Screen name="LoginPage" component={LoginPage} />
-          <Stack.Screen name="Home" component={NavDrawer} />
+          {/* <Stack.Screen name="Home" component={NavDrawer} /> */}
           {/* <Stack.Screen name="ExplorePage" component={ExplorePage} /> */}
           <Stack.Screen name="SongWebPage" component={SongWebPage} />
         </Stack.Navigator>
